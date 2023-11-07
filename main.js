@@ -13,19 +13,25 @@ const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } )
 class FileRepresentation {
   isOpen = false
 
-  constructor(targetId) {
-    this.mesh = new THREE.Mesh( geometry, material )
+  constructor(targetId, position) {
+    this.material = material.clone()
+    this.mesh = new THREE.Mesh( geometry, this.material )
+    this.mesh.position.copy(position)
     this.mesh.file = this
+    scene.add( this.mesh );
+
     this.target = document.getElementById(targetId)
 
-    this.target.addEventListener("show-frame", () => {
+    this.target.addEventListener("show-frame", (e) => {
       this.isOpen = true
       this.mesh.material.color.set( 0x0000ff )
+      e.preventDefault()
     })
 
-    this.target.addEventListener("hide-frame", () => {
+    this.target.addEventListener("hide-frame", (e) => {
       this.isOpen = false
       this.mesh.material.color.set( 0xaa00aa )
+      e.preventDefault()
     })
   }
 
@@ -39,8 +45,10 @@ class FileRepresentation {
   }
 }
 
-const test = new FileRepresentation("test")
-scene.add( test.mesh );
+const files = [
+  new FileRepresentation("test", new THREE.Vector3(2, 2, -2)),
+  new FileRepresentation("test2", new THREE.Vector3(0, 0, 0)),
+]
 
 camera.position.z = 5;
 
@@ -71,7 +79,7 @@ function animate(current) {
   // update the picking ray with the camera and pointer position
   raycaster.setFromCamera( pointer, camera )
 
-  test.update(dt)
+  files.forEach(f => f.update(dt))
 
   renderer.render( scene, camera )
   lastTime = current
