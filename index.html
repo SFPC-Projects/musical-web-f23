@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>musical web fall 2023 showcase</title>
+		<style>
+			body { margin: 0; }
+		</style>
+    <link rel="stylesheet" href="/lib/dumpling/dumpling.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./lib/threejs/three.module.js"
+      }
+    }
+    </script>
+		<script type="module" src="/lib/dumpling/a-dumpling.js"></script>
+		<script type="module" src="/lib/d-iframe.js"></script>
+		<script type="module" src="/main.js"></script>
+	</head>
+	<body>
+    <a-dumpling hidden maximize id="test" title="test">
+      <d-iframe src="./index.html"></d-iframe>
+    </a-dumpling>
+	</body>
+</html>
