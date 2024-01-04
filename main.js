@@ -4,11 +4,11 @@ import { OutlineEffect } from 'three/addons/effects/OutlineEffect.js'
 
 import projects from './projects.js'
 
-let scene, camera, renderer, effect, geometry, material;
-let files = [];
-let groups = [];
-const diskRadius = 5;
-const diskNum = 3;
+let scene, camera, renderer, effect, geometry, material
+let files = []
+let groups = []
+const diskRadius = 5
+const diskNum = 5
 
 function lerp(a, b, t) {
   t = Math.min(Math.max(t, 0), 1)
@@ -33,8 +33,8 @@ function init() {
 
   // lighting
   let ambientLight = new THREE.AmbientLight(0xffffff, 2);
-  let light = new THREE.PointLight(0xffffff, 7);
-  light.position.set(5, 5, 2);
+  let light = new THREE.PointLight(0xffffff, 18);
+  light.position.set(7, 7, 2);
   let light2 = new THREE.PointLight(0xffffff, 3);
   light2.position.set(-8, -5, 2);
   scene.add(ambientLight, light, light2);
@@ -94,7 +94,7 @@ function init() {
         hidden
         layer="info"
       >
-        <div>by ${project.author}</div>
+        <div style="padding: 10px">by ${project.author}</div>
       </a-dumpling>
     `
 

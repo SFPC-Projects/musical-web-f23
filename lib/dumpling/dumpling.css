@@ -2,9 +2,18 @@
   --frame-scale: 0.8vmin;
   --frame-1px: min(0.13vmin, 1px);
   --frame-2px: min(0.27vmin, 2px);
-  --frame-header: min(1.8vmin, 20px); /* scale * 1.44 */
+  --frame-header: min(2.5vmin, 40px); /* scale * 1.44 */
   --frame-padding: min(0.4vmin, 4px); /* scale * 0.5 */
-  --frame-fontSize: 1.2vmin; /* scale * 1.5 */
+  --frame-fontSize: 19px; /* scale * 1.5 */
+
+  /* muddy green */
+  --shadow: #82A7A6;
+
+  /* cool blue */
+  --detail: #444488;
+
+  /* muddy red */
+  --background: #B796AC;
 }
 
 a-dumpling {
@@ -43,11 +52,11 @@ d-iframe iframe {
 }
 
 .Frame-content {
-  background-color: #dadada;
+  background-color: var(--background);
   color: black;
   display: flex;
   flex-flow: column;
-  border: var(--frame-1px) solid black;
+  border: var(--frame-1px) solid var(--detail);
   box-shadow: 1px 1px 2px #696969;
   height: 100%;
   width: 100%;
@@ -65,7 +74,7 @@ d-iframe iframe {
 
 .Frame.is-dragging {
   animation: shake 1s alternate infinite;
-  box-shadow: black 1vmin 1vmin;
+  box-shadow: var(--shadow) 1vmin 1vmin;
 }
 
 .Frame.is-unfocused .Frame-body,
@@ -84,9 +93,11 @@ d-iframe iframe {
   min-height: calc(var(--frame-scale) * 1.0);
   padding: var(--frame-padding);
   padding-bottom: calc(var(--frame-padding) * 0.75);
-  border: calc(var(--frame-scale) * 0.1) solid #dadada;
-  background-color: #dadada;
+  /* border: calc(var(--frame-scale) * 0.1) solid var(--detail); */
+  color: var(--detail);
+  /* background-color: var(--detail); */
   user-select: none;
+  font-size: 20px;
   z-index: 1;
 }
 
@@ -104,9 +115,10 @@ d-iframe iframe {
 /* -- h/buttons */
 .Frame-closeButton {
   position: relative;
-  min-width: calc(var(--frame-scale) * 2.1);
-  min-height: calc(var(--frame-scale) * 2.1);
-  background: url("./img/window-close.gif") center/contain no-repeat;
+  image-rendering: pixelated;
+  min-width: calc(var(--frame-scale) * 2.4);
+  min-height: calc(var(--frame-scale) * 2.4);
+  background: url("./img/window-close.png") center/contain no-repeat;
 }
 
 .Frame-backButton {
@@ -117,7 +129,7 @@ d-iframe iframe {
   box-sizing: border-box;
   width: calc(var(--frame-scale) * 2.1);
   height: calc(var(--frame-scale) * 2.1);
-  border: calc(var(--frame-scale) * 0.20) solid black;
+  border: calc(var(--frame-scale) * 0.20) solid var(--detail);
 }
 
 .Frame-temperament {
@@ -143,19 +155,24 @@ d-iframe iframe {
 
 .Frame-title::before, .Frame-title::after {
   content: "";
-  background: repeating-linear-gradient(black, black var(--frame-1px), transparent var(--frame-1px), transparent var(--frame-2px));
+  background-color: var(--background);
+  /* background: repeating-linear-gradient(black, black var(--frame-1px), transparent var(--frame-1px), transparent var(--frame-2px)); */
   flex: 1;
   height: 100%;
   min-width: calc(var(--frame-scale * 1.8));
 }
 
 .Frame-titleText {
-  height: 110%;
+  height: 108%;
   margin-left: 0.5vmin;
   margin-right: 0.5vmin;
   font-size: var(--frame-fontSize);
+  font-weight: boldest;
   font-family: monospace;
-  background-color: #dadada;
+  /* background-color: var(--detail); */
+  /* color: var(--background); */
+  /* color: var(--detail); */
+  /* color: black; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -181,7 +198,7 @@ d-iframe iframe {
   overflow: hidden;
   width: 100%;
   height: 100%;
-  border: var(--frame-1px) solid black;
+  border: var(--frame-1px) solid var(--detail);
   display: flex;
   justify-content: center;
   min-height: 0;
@@ -192,20 +209,22 @@ d-iframe iframe {
   width: 100%;
   height: 100%;
   overflow:hidden;
+  background-color: #9ED0E6;
+  font-size: 2em;
 }
 
 /* -- handle -- */
 .Frame-handle {
   position: absolute;
-  width: 2.0vmin;
-  height: 2.0vmin;
-  max-width: 15px;
-  max-height: 15px;
+  width: 2.5vmin;
+  height: 2.5vmin;
+  max-width: 30px;
+  max-height: 30px;
   right: min(0.64vmin, var(--frame-padding));
   bottom: min(0.64vmin, var(--frame-padding));
   margin-right: var(--frame-1px);
   margin-bottom: var(--frame-1px);
-  background-image: url("./img/window-res.gif");
+  background-image: url("./img/window-res.png");
   background-repeat: no-repeat;
   background-size: cover;
   cursor: nwse-resize;
@@ -225,43 +244,8 @@ d-iframe iframe {
     transform: translate(1px, 1px) rotate(0deg) scale(0.98);
   }
 
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg) scale(0.94);
-  }
-
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg) scale(0.94);
-  }
-
-  30% {
-    transform: translate(3px, 2px) rotate(0deg) scale(0.9);
-  }
-
-  40% {
-    transform: translate(1px, -1px) rotate(1deg) scale(0.9);
-  }
-
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg) scale(0.9);
-  }
-
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg) scale(0.9);
-  }
-
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg) scale(0.9);
-  }
-
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg) scale(0.9);
-  }
-
-  90% {
-    transform: translate(1px, 2px) rotate(0deg) scale(0.9);
-  }
 
   100% {
-    transform: translate(1px, -2px) rotate(-1deg) scale(0.9);
+    transform: translate(1px, -2px) rotate(-1deg) scale(0.94);
   }
 }
