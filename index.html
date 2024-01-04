@@ -7,6 +7,13 @@
       body {
         margin: 0;
       }
+
+      .webgl {
+        position: fixed;
+        top: 0;
+        left: 0;
+        outline: none;
+      }
     </style>
     <link rel="stylesheet" href="/lib/dumpling/dumpling.css" />
     <script type="importmap">
@@ -22,18 +29,11 @@
     <script type="module" src="/main.js"></script>
   </head>
   <body>
+    <canvas class="webgl" id="three"></canvas>
     <div id="dumpling-container">
       <a-dumpling maximize id="info" title="info">
         <d-iframe src="info.html"></d-iframe>
         <iframe src="info.html"></iframe>
-      </a-dumpling>
-
-      <a-dumpling hidden maximize id="test" title="test">
-        <d-iframe src="./index.html"></d-iframe>
-      </a-dumpling>
-
-      <a-dumpling hidden maximize id="test2" title="test2">
-        <d-iframe src="http://orienting.sfpc.study/"></d-iframe>
       </a-dumpling>
     </div>
   </body>

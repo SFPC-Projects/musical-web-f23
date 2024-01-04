@@ -7,8 +7,8 @@ import projects from './projects.js'
 let scene, camera, renderer, effect, geometry, material;
 let files = [];
 let groups = [];
-let diskRadius = 5;
-let diskNum = 3;
+const diskRadius = 5;
+const diskNum = 3;
 
 function lerp(a, b, t) {
   t = Math.min(Math.max(t, 0), 1)
@@ -16,21 +16,22 @@ function lerp(a, b, t) {
 }
 
 function init() {
+  const canvas = document.getElementById("three")
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x444488);
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 10;
+  camera.position.z = 10
 
-  renderer = new THREE.WebGLRenderer()
+  renderer = new THREE.WebGLRenderer({canvas})
   renderer.setSize(window.innerWidth, window.innerHeight)
-  document.body.appendChild(renderer.domElement)
 
   let controls = new OrbitControls(camera, renderer.domElement);
   console.log(controls)
   geometry = new THREE.BoxGeometry(1, 1, 1)
   material = new THREE.MeshToonMaterial({ /*color: 0x00ff00*/ });
 
+  // lighting
   let ambientLight = new THREE.AmbientLight(0xffffff, 2);
   let light = new THREE.PointLight(0xffffff, 7);
   light.position.set(5, 5, 2);
@@ -38,16 +39,23 @@ function init() {
   light2.position.set(-8, -5, 2);
   scene.add(ambientLight, light, light2);
 
-  let diskGeo = new THREE.CylinderGeometry(diskRadius, diskRadius, 0.3);
-  let diskMaterial = new THREE.MeshToonMaterial({ color: 0x8888cc, transparent: true, opacity: 0.6 });
-
-  let spacing = 3;
+  // create the discs
+  const spacing = 3;
+  const diskGeo = new THREE.CylinderGeometry(diskRadius, diskRadius, 0.3);
+  const diskMaterial = new THREE.MeshToonMaterial({
+    color: 0x8888cc,
+    transparent: true,
+    opacity: 0.6
+  });
 
   for (let i = 0; i < diskNum; i++) {
     groups.push(new THREE.Group());
     scene.add(groups[i]);
-    groups[i].position.set(0, i * spacing - diskNum * spacing / 2, 0);
-    let disk = new THREE.Mesh(diskGeo, diskMaterial);
+    groups[i].position.set(
+      0,
+      i * spacing - diskNum * spacing / 2,
+      0);
+    const disk = new THREE.Mesh(diskGeo, diskMaterial);
     groups[i].add(disk);
   }
 
@@ -101,7 +109,6 @@ function init() {
   //files.forEach(f => f.mesh.parent(disks[0]))
 
   effect = new OutlineEffect(renderer);
-
 }
 
 
@@ -168,12 +175,37 @@ function OnPointerMove(event) {
   pointer.y = - (event.clientY / window.innerHeight) * 2 + 1
 }
 
+let targetObj = null
+function OnPointerUp(event) {
+  // only count clicks on the actual canvas
+  if (event.target.id !== "three") return
+
+  const intersects = raycaster.intersectObjects(scene.children)
+  for (let i = 0; i < intersects.length; i++) {
+    const obj = intersects[i].object
+
+    if (obj !== targetObj) continue
+    if (obj.file) {
+      obj.file.toggle()
+
+      // stop after first intersection
+      break
+    }
+  }
+  targetObj = null
+}
+
 function OnPointerDown(event) {
+  // only count clicks on the actual canvas
+  if (event.target.id !== "three") return
+
   const intersects = raycaster.intersectObjects(scene.children)
   for (let i = 0; i < intersects.length; i++) {
     const obj = intersects[i].object
     if (obj.file) {
-      obj.file.toggle()
+      targetObj = obj
+      // stop after first intersection
+      return
     }
   }
 }
@@ -194,6 +226,24 @@ function animate(current) {
 
 window.addEventListener('pointermove', OnPointerMove)
 window.addEventListener('pointerdown', OnPointerDown)
+window.addEventListener('pointerup', OnPointerUp)
+const sizes = {
+    width: window.innerWidth,
+    height: window.innerHeight
+}
+window.addEventListener('resize', () => {
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
+
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+})
 
 init()
 requestAnimationFrame(animate)
