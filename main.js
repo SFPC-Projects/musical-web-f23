@@ -7,8 +7,13 @@ import projects from './projects.js'
 let scene, camera, renderer, effect, geometry, material
 let files = []
 let groups = []
-const diskRadius = 5
+const diskRadiusMin = 4.8
+const diskRadiusMax = 5.2
 const diskNum = 5
+const diskSpacing = 3;
+const diskMaxDisplacement = 1;
+
+const bgColor = 0x444488
 
 function lerp(a, b, t) {
   t = Math.min(Math.max(t, 0), 1)
@@ -18,7 +23,7 @@ function lerp(a, b, t) {
 function init() {
   const canvas = document.getElementById("three")
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x444488);
+  scene.background = new THREE.Color(bgColor);
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 10
@@ -40,7 +45,7 @@ function init() {
   scene.add(ambientLight, light, light2);
 
   // create the discs
-  const spacing = 3;
+  const diskRadius = diskRadiusMax
   const diskGeo = new THREE.CylinderGeometry(diskRadius, diskRadius, 0.3);
   const diskMaterial = new THREE.MeshToonMaterial({
     color: 0x8888cc,
@@ -51,10 +56,13 @@ function init() {
   for (let i = 0; i < diskNum; i++) {
     groups.push(new THREE.Group());
     scene.add(groups[i]);
+    const dispAngle = lerp(0, Math.PI, Math.random())
+    const dispRadius = lerp(0, diskMaxDisplacement, Math.random())
     groups[i].position.set(
-      0,
-      i * spacing - diskNum * spacing / 2,
-      0);
+      dispRadius * Math.cos(dispAngle),
+      i * diskSpacing - diskNum * diskSpacing / 2,
+      dispRadius * Math.sin(dispAngle)
+    )
     const disk = new THREE.Mesh(diskGeo, diskMaterial);
     groups[i].add(disk);
   }
@@ -108,7 +116,10 @@ function init() {
 
   //files.forEach(f => f.mesh.parent(disks[0]))
 
-  effect = new OutlineEffect(renderer);
+  effect = new OutlineEffect(renderer, {
+    defaultThickness: 0.003,
+    defaultColor: [ 68/255, 68/255, 136/255]
+  });
 }
 
 
@@ -132,7 +143,7 @@ class FileRepresentation {
     this.mesh.rotation.x = Math.random() * Math.PI * 0.02
     this.mesh.rotation.z = Math.random() * Math.PI * 0.02
     const randomAngle = Math.random() * Math.PI * 2
-    const randomRadius = lerp(0.1, 0.9, Math.random()) * diskRadius
+    const randomRadius = lerp(0.1, 0.9, Math.random()) * diskRadiusMin
     this.mesh.position.set(
       randomRadius * Math.cos(randomAngle),
       0.5,
@@ -178,6 +189,7 @@ function OnPointerMove(event) {
 let targetObj = null
 function OnPointerUp(event) {
   // only count clicks on the actual canvas
+  // TODO: would be cool if it reacted on hover or something
   if (event.target.id !== "three") return
 
   const intersects = raycaster.intersectObjects(scene.children)

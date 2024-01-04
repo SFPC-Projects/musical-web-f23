@@ -14,6 +14,7 @@
 
   /* muddy red */
   --background: #B796AC;
+
 }
 
 a-dumpling {
@@ -129,7 +130,7 @@ d-iframe iframe {
   box-sizing: border-box;
   width: calc(var(--frame-scale) * 2.1);
   height: calc(var(--frame-scale) * 2.1);
-  border: calc(var(--frame-scale) * 0.20) solid var(--detail);
+  border: calc(var(--frame-scale) * 0.50) solid var(--detail);
 }
 
 .Frame-temperament {
