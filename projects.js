@@ -28,13 +28,15 @@ i am also interested in the idea of performing with videogames, in particular th
   },
   { author:"Mekkoh",
     id: "mekkoh",
-    title: "rotation-",
+    title: "Rotation",
     url:"https://rotation-.glitch.me/",
+    description: `With 'Rotation' my aim is to depict a dynamic landscape. As the environment shifts from day to night, time seems to stutter, stop, and speed by in a non-linear fashion. This continuous fluctuation of color, sound, and perspective activates memory using very few visual signifiers. Visuals are generated in-browser; audio is processed using Max/MSP and translated to the web using RNBO. `
   },
   { author: "Carlos Pesina Siller",
     title: "oxxxo",
     id: "pesinasiller",
     url: "https://www.oxxxo.club/",
+    description: `Collaborative FM synthesizer where every user controls an oscillator that modulates another. Inspired by the instrument Dimi-s, designed by the finnish inventor Erkki Kuriennemi .`
   },
   { author: "Corey De'Juan Sherrard Jr",
     title: "R-aa-ddd-iiii-ooooo!!!!!!",
