@@ -9,7 +9,7 @@ let files = []
 let groups = []
 const diskRadiusMin = 4.8
 const diskRadiusMax = 5.2
-const diskNum = 5
+const diskNum = 3
 const diskSpacing = 3;
 const diskMaxDisplacement = 1;
 
@@ -102,7 +102,9 @@ function init() {
         hidden
         layer="info"
       >
-        <div style="padding: 10px">by ${project.author}</div>
+        <div style="font-family:monospace; padding: 10px">by ${project.author}</div>
+        <hr>
+        <div style="font-size: 16px; font-family:monospace; padding: 10px">${project.description || ''}</div>
       </a-dumpling>
     `
 
