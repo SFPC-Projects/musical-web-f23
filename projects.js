@@ -25,6 +25,7 @@ i am also interested in the idea of performing with videogames, in particular th
     id: "katherine",
     title: "moon echoes",
     url:"https://kgt-moon.glitch.me/",
+    description: `sample description`,
   },
   { author:"Mekkoh",
     id: "mekkoh",
