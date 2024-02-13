@@ -25,7 +25,7 @@ i am also interested in the idea of performing with videogames, in particular th
     id: "katherine",
     title: "moon echoes",
     url:"https://kgt-moon.glitch.me/",
-    description: `sample description`,
+    description: `'Moon Echoes' is a web-based audio project inspired by Pauline Oliveros' 'Echoes from the Moon'. The project uses Location and Moon Phase APIs to simulate sending a message to the moon, where the response modulated by the current distance, phase, and illumination of the moon. `,
   },
   { author:"Mekkoh",
     id: "mekkoh",
@@ -47,6 +47,7 @@ i am also interested in the idea of performing with videogames, in particular th
   { author:"Tuan",
     id: "tuan",
     url:"https://city-windchimes.glitch.me/",
+    description:""
   },
   { author:"heya kwon",
     id: "heya",
