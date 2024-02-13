@@ -46,6 +46,7 @@ i am also interested in the idea of performing with videogames, in particular th
   },
   { author:"Tuan",
     id: "tuan",
+    img: "tuan.png",
     url:"https://city-windchimes.glitch.me/",
     description:""
   },
