@@ -72,47 +72,50 @@ function init() {
   let i = 0
   projects.forEach(project => {
     const $parent = document.getElementById("dumpling-container")
+    if (!project.isOwnWindow) {
+      const $main = document.createElement("div")
+      $main.innerHTML = `
+        <a-dumpling
+          title="${project.title}"
+          id="${project.id}"
+          temperament="sanguine"
+          no-feelings
+          no-back
+          maximize
+          hidden
+          layer="project"
+          w=90
+          h=90
+        >
+          <d-iframe src="${project.url}"></d-iframe>
+        </a-dumpling>
+      `
 
-    const $main = document.createElement("div")
-    $main.innerHTML = `
-      <a-dumpling
-        title="${project.title}"
-        id="${project.id}"
-        temperament="sanguine"
-        no-feelings
-        no-back
-        maximize
-        hidden
-        layer="project"
-        w=90
-        h=90
-      >
-        <d-iframe src="${project.url}"></d-iframe>
-      </a-dumpling>
-    `
+      $parent.appendChild($main)
+    }
+
     const $info = document.createElement("div")
-    $info.innerHTML = `
-      <a-dumpling
-        title="${project.title}"
-        id="${project.id}-info"
-        temperament="phlegmatic"
-        no-feelings
-        no-back
-        maximize
-        hidden
-        layer="info"
-      >
-        <div style="font-family:monospace; padding: 10px">by ${project.author}</div>
-        <hr>
-        <div style="font-size: 16px; font-family:monospace; padding: 10px">${project.description || ''}</div>
-      </a-dumpling>
-    `
+      $info.innerHTML = `
+        <a-dumpling
+          title="${project.title}"
+          id="${project.id}-info"
+          temperament="phlegmatic"
+          no-feelings
+          no-back
+          maximize
+          hidden
+          layer="info"
+        >
+          <div style="font-family:monospace; padding: 10px">by ${project.author}</div>
+          <hr>
+          <div style="font-size: 16px; font-family:monospace; padding: 10px">${project.description || ''}</div>
+        </a-dumpling>
+      `
 
-    $parent.appendChild($main)
-    $parent.appendChild($info)
+      $parent.appendChild($info)
 
-    const file = new FileRepresentation(project.id, groups[Math.floor(i++ % diskNum)])
 
+    const file = new FileRepresentation(project, groups[Math.floor(i++ % diskNum)])
     files.push(file)
   })
 
@@ -128,7 +131,10 @@ function init() {
 class FileRepresentation {
   isOpen = false
 
-  constructor(targetId, group) {
+  constructor(project, group) {
+    this.url = project.url
+    this.isOwnWindow = project.isOwnWindow
+    var targetId = project.id
     this.material = material.clone()
     const texture = new THREE.TextureLoader().load(`static/img/${targetId}.png`)
     texture.wrapS = THREE.RepeatWrapping
@@ -156,25 +162,37 @@ class FileRepresentation {
 
     group.add(this.mesh)
 
-    this.target = document.getElementById(targetId)
     this.targetInfo = document.getElementById(`${targetId}-info`)
+    if (!this.isOwnWindow) {
+      this.target = document.getElementById(targetId)
 
-    this.target.addEventListener("show-frame", (e) => {
-      this.isOpen = true
-      // this.mesh.material.color.set(0x0000ff)
-      e.preventDefault()
-    })
+      this.target.addEventListener("show-frame", (e) => {
+        this.isOpen = true
+        // this.mesh.material.color.set(0x0000ff)
+        e.preventDefault()
+      })
 
-    this.target.addEventListener("hide-frame", (e) => {
-      this.isOpen = false
-      // this.mesh.material.color.set(0xaa00aa)
-      e.preventDefault()
-      this.targetInfo.hide()
-    })
+      this.target.addEventListener("hide-frame", (e) => {
+        this.isOpen = false
+        // this.mesh.material.color.set(0xaa00aa)
+        e.preventDefault()
+        this.targetInfo.hide()
+      })
+    }
   }
 
   toggle() {
-    this.target.toggle()
+    if (!this.isOwnWindow) {
+      this.target.toggle()
+    } else {
+      var height = Math.floor(lerp(300, 800, Math.random()))
+      var width = Math.floor(lerp(400, 1000, Math.random()))
+      var top = Math.floor(lerp(50, screen.height - height - 50, Math.random()))
+      var left = Math.floor(lerp(50, screen.width - width - 50, Math.random()))
+      console.log("AAAAAAA")
+      console.log(`top=${top},left=${left},height=${height},width=${width},scrollbars=yes,status=yes`)
+      window.open(this.url, '_blaaaaank', `top=${top},left=${left},height=${height},width=${width},scrollbars=yes,status=yes`)
+    }
     this.targetInfo.toggle()
   }
 }

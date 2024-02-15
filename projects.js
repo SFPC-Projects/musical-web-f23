@@ -36,6 +36,7 @@ i am also interested in the idea of performing with videogames, in particular th
   { author: "Carlos Pesina Siller",
     title: "oxxxo",
     id: "pesinasiller",
+    isOwnWindow: "true",
     url: "https://www.oxxxo.club/",
     description: `Collaborative FM synthesizer where every user controls an oscillator that modulates another. Inspired by the instrument Dimi-s, designed by the finnish inventor Erkki Kuriennemi .`
   },
@@ -53,6 +54,7 @@ i am also interested in the idea of performing with videogames, in particular th
   { author:"heya kwon",
     id: "heya",
     title: "ASCII Theremin",
+    isOwnWindow: "true",
     url:"https://heya.world/ascii_theremin",
     description: `This virtual theremin allows users to interact with an ASCII videoscape, generating sounds through the position of their index fingers. Users can intentionally or accidentally play samples and trigger visual changes by touching specific coordinates on the frame or moving in a certain speed, resulting in a dynamic auditory experience.
 
