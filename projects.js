@@ -49,7 +49,7 @@ i am also interested in the idea of performing with videogames, in particular th
     id: "tuan",
     img: "tuan.png",
     url:"https://city-windchimes.glitch.me/",
-    description:""
+    description:"As wind breezes through cities, so does this little windchime. Take a breath or a sip of tea, and listen to the sounds generated from local weather data. The sound is inspired by the wind speed, and the colors by the temperature."
   },
   { author:"heya kwon",
     id: "heya",
